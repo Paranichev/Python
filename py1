@@ -1,0 +1,67 @@
+import pandas as pd
+import os
+class student:
+    def __init__(self):
+        columns=['group','fio','sex','age','phone','email','kurs','ticket']
+        data = [
+            [1,'Петров Петр Петрович','м',23,'89217121212','mail1@mail.ru',3,33],
+            [2,'Иванов Иван Иванович','м',24,'89217121213','mail2@mail.ru',3,34],
+            [3,'Денисов Денис Денисович','м',22,'89217121214','mail3@mail.ru',5,35],
+            [1,'Петрова Петра Петрович','ж',23,'89217121212','mail1@mail.ru',3,36],
+            [2,'Иванова Ивана Иванович','ж',24,'89217121213','mail2@mail.ru',3,37],
+            [3,'Денисова Дениса Денисович','ж',22,'89217121214','mail3@mail.ru',5,38],
+            [1,'Петров Пе Петрович','м',23,'89217121212','mail1@mail.ru',3,39],
+            [2,'Иванов Ив Иванович','м',24,'89217121213','mail2@mail.ru',3,40],
+            [3,'Денисов Де Денисович','м',22,'89217121214','mail3@mail.ru',5,41],
+            [1,'Петров Пет Петрович','м',23,'89217121212','mail1@mail.ru',3,42],
+        ]
+        self.__qa = pd.DataFrame(data, columns=columns)
+        self.__qa.to_csv(r'33.csv')
+    def add(self,group,fio,sex,age,phone,email,kurs,ticket):
+        if (self.__qa['ticket'] == ticket).sum()==0:
+                        nr={'group':group,'fio':fio,'sex':sex,'age':age,'phone':phone,'email':email,'kurs':kurs,'ticket':ticket}
+                        self.__qa=self.__qa.append(nr,ignore_index=True)
+                        self.__qa.to_csv('33.csv',index=False)
+                        #print(self.__qa)
+        else:
+            print('Wrong ticket!')
+    def remove(self,ticket):
+        self.__qa = self.__qa[self.__qa.ticket != ticket]
+        os.remove('33.csv')
+        my_file = open("33.csv", "w")
+        my_file.close()
+        self.__qa.to_csv('33.csv',index=False)
+    def search(self,fio):
+        print(self.__qa.loc[self.__qa['fio'] == fio])
+    def search_group(self,group):
+        print(self.__qa.loc[self.__qa['group'] == group,["fio"]])
+    def age18(self):
+        print(self.__qa.loc[self.__qa['age'] > 18,["fio"]])
+    def next(self):
+        self.__qa1= self.__qa[self.__qa.kurs == 5]
+        self.__qa = self.__qa[self.__qa.kurs != 5]
+        self.__qa.loc[self.__qa['kurs']<5, 'kurs'] +=1
+        os.remove('33.csv')
+        my_file = open("33.csv", "w")
+        my_file.close()
+        self.__qa.to_csv('33.csv',index=False) 
+        self.__qa1.to_csv('333.csv',index=False)
+    def output(self,ticket):
+        idx = self.__qa[self.__qa['ticket'] == ticket].index
+        idx=idx.tolist()
+        idx=int(''.join(map(str, idx)))
+        if (self.__qa.iloc[idx,2]=='м'):
+            print('Студент ',self.__qa.iloc[idx,1],' учится в группе ',self.__qa.iloc[idx,0],' на ',self.__qa.iloc[idx,6],' курсе. Номер студ.билета ',self.__qa.iloc[idx,7])
+        else:
+            print('Студентка ',self.__qa.iloc[idx,1],' учится в группе ',self.__qa.iloc[idx,0],' на ',self.__qa.iloc[idx,6],' курсе. Номер студ.билета ',self.__qa.iloc[idx,7])
+       
+st=student()
+#st.add(1,'Денисов Денис Денисович','2',2,'2','2',2,3)
+#st.remove(3)
+#st.search('Петров Петр Петрович')
+#os.remove('6.csv')
+#st.search_group(2)
+#st.age18()
+#st.next()
+st.output(36)
+        
