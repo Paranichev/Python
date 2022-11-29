@@ -1,0 +1,145 @@
+import pandas as pd
+class student:
+    group=0
+    fio=''
+    sex=''
+    age=0
+    phone=''
+    email=''
+    kurs=0
+    ticket=0
+    marks=''
+class array:
+    def __init__(self,obj,panda):
+        self.__arr=[]
+        for index, row in panda.iterrows():
+            obj=student()
+            obj.group=row[0]
+            obj.fio=row[1]
+            obj.sex=row[2]
+            obj.age=row[3]
+            obj.phone=row[4]
+            obj.email=row[5]
+            obj.kurs=row[6]
+            obj.ticket=row[7]
+            obj.marks=row[8]
+            self.__arr.append(obj)
+    def out(self):
+        for y in self.__arr:
+            print(y.marks)
+    def srav(self,ticket1,ticket2):
+        for y in self.__arr:
+            if y.ticket==ticket1:
+                kurs1=y.kurs
+            if y.ticket==ticket2:
+                kurs2=y.kurs
+        if kurs1>kurs2:
+            print(f'студент с билетом {ticket1} учится на более высоком курсе по сравнению со студентом с билетом {ticket2}')
+        else:
+            print(f'студент с билетом {ticket2} учится на более высоком курсе по сравнению со студентом с билетом {ticket1}')
+    def perevod(self,ticket):
+        for y in range(len(self.__arr)):
+            if self.__arr[y].ticket==ticket:
+                if self.__arr[y].kurs<5:
+                    self.__arr[y].kurs+=1
+                else: 
+                    ind=y
+        if ind:
+            del self.__arr[ind]
+    def addmark(self,ticket,mark):
+        for y in self.__arr:
+            if y.ticket==ticket:
+                y.marks=y.marks+mark
+class group():
+    name=''
+    number=0
+class array1:
+    def __init__(self,obj1,obj2,panda1,panda2):
+        self.__arr=[]
+        for index, row in panda1.iterrows():
+            obj1=student()
+            obj1.group=row[0]
+            obj1.fio=row[1]
+            obj1.sex=row[2]
+            obj1.age=row[3]
+            obj1.phone=row[4]
+            obj1.email=row[5]
+            obj1.kurs=row[6]
+            obj1.ticket=row[7]
+            obj1.marks=row[8]
+            self.__arr.append(obj1) 
+        self.__arr1=[]
+        for index, row in panda2.iterrows():
+            obj2=group()
+            obj2.group=row[0]
+            obj2.name=row[1]
+            self.__arr1.append(obj2) 
+    def out(self):
+        for y in self.__arr1:
+            print(y.name)
+    def outstudent(self,group):
+        for y in self.__arr1:
+            if y.group==group:
+                print(y.name)
+        for y in self.__arr:
+            if y.group==group:
+                print(y.fio)
+    def boysgirls(self,group):
+        for y in self.__arr1:
+            if y.group==group:
+                print(y.name)
+        print('мальчики\n')
+        for y in self.__arr:
+            if y.group==group and y.sex=='м':
+                print(y.fio)
+        print('девочки\n')
+        for y in self.__arr:
+            if y.group==group and y.sex=='ж':
+                print(y.fio)
+    def count(self,group1,group2):
+        k1=0
+        k2=0
+        for y in self.__arr:
+            if y.group==group1:
+                k1+=1
+            if y.group==group2:
+                k2+=1
+        if k1>k2:
+            print(f'в группе номер {group1} учится больше студентов, чем в группе {group2}')
+        else:
+            print(f'в группе номер {group2} учится больше студентов, чем в группе {group1}')
+columns=['group','fio','sex','age','phone','email','kurs','ticket','marks']
+data = [
+    [1,'Петров Петр Петрович','м',23,'89217121212','mail1@mail.ru',3,33,'345'],
+    [2,'Иванов Иван Иванович','м',24,'89217121213','mail2@mail.ru',3,34,'345'],
+    [3,'Денисов Денис Денисович','м',22,'89217121214','mail3@mail.ru',5,35,'345'],
+    [1,'Петрова Петра Петрович','ж',23,'89217121212','mail1@mail.ru',3,36,'345'],
+    [2,'Иванова Ивана Иванович','ж',24,'89217121213','mail2@mail.ru',3,37,'345'],
+    [3,'Денисова Дениса Денисович','ж',22,'89217121214','mail3@mail.ru',5,38,'345'],
+    [1,'Петров Пе Петрович','м',23,'89217121212','mail1@mail.ru',3,39,'345'],
+    [2,'Иванов Ив Иванович','м',24,'89217121213','mail2@mail.ru',3,40,'345'],
+    [3,'Денисов Де Денисович','м',22,'89217121214','mail3@mail.ru',5,41,'345'],
+    [1,'Петров Пет Петрович','м',23,'89217121212','mail1@mail.ru',3,42,'345'],
+        ]
+columns1=['group','name']
+data1=[
+    [1,'омд'],
+    [2,'ис'],
+    [3,'кс'],
+        ]
+ba = pd.DataFrame(data, columns=columns)
+ga = pd.DataFrame(data1, columns=columns1)
+s=student()
+st=array(s,ba)
+st.out()
+st.srav(34,35)
+st.perevod(41)
+#st.out()
+st.addmark(34,'4')
+st.out()
+print('____')
+g=group()
+gr=array1(s,g,ba,ga)
+gr.outstudent(1)
+gr.boysgirls(1)
+gr.count(1,2)
