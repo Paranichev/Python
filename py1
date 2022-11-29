@@ -44,7 +44,7 @@ class student:
         os.remove('33.csv')
         my_file = open("33.csv", "w")
         my_file.close()
-        self.__qa.to_csv('33.csv',index=False) 
+        self.__qa.to_csv('33.csv',index=False)
         self.__qa1.to_csv('333.csv',index=False)
     def output(self,ticket):
         idx = self.__qa[self.__qa['ticket'] == ticket].index
@@ -54,25 +54,40 @@ class student:
             print('Студент ',self.__qa.iloc[idx,1],' учится в группе ',self.__qa.iloc[idx,0],' на ',self.__qa.iloc[idx,6],' курсе. Номер студ.билета ',self.__qa.iloc[idx,7])
         else:
             print('Студентка ',self.__qa.iloc[idx,1],' учится в группе ',self.__qa.iloc[idx,0],' на ',self.__qa.iloc[idx,6],' курсе. Номер студ.билета ',self.__qa.iloc[idx,7])
-       
-print('1-добавление студента,\n2-удаление студента,\n3-поиск студента по фио,\n4-поиск студентов по группе,\n5-вывод по возрасту>18,\n6-перевод и исключение студентов по курсу,\n7-вывод информации в виде строки\n)')
-#k=input('Введите номер функции:')
-k='3'
+    def user(self,sex):
+        print(self.__qa.loc[self.__qa['sex'] == sex, ["fio"]])
+
+
+print('1-добавление студента,\n2-удаление студента,\n3-поиск студента по фио,\n4-поиск студентов по группе,\n5-вывод по возрасту>18,\n6-перевод и исключение студентов по курсу,\n7-вывод информации в виде строки\n8-пользовательская\n)')
+k=input('Введите номер функции:')
 st=student()
 match k:
+    case '1':
+        n1 = int(input('Введите группу'))
+        n2 = input('Введите фио')
+        n3= input('Введите пол')
+        n4= int(input('Введите возраст'))
+        n5= input('Введите телефон')
+        n6= input('Введите email')
+        n7=int(input('Введите курс'))
+        n8 = int(input('Введите билет'))
+        st.add(n1,n2,n3,n4,n5,n6,n7,n8)
     case '2':
         n=input('Введите номер студ. билета')
         st.remove(n)
     case '3':
-        print('qq')
         n=input('Введите ФИО студента')
         st.search(n)
-#st.add(1,'Денисов Денис Денисович','2',2,'2','2',2,3)
-#st.remove(3)
-#st.search('Петров Петр Петрович')
-#os.remove('6.csv')
-#st.search_group(2)
-#st.age18()
-#st.next()
-#st.output(36)
-        
+    case '4':
+        n = input('Введите группу')
+        st.search_group(n)
+    case '5':
+        st.age()
+    case '6':
+        st.next()
+    case '7':
+        n = input('Введите номер билета')
+        st.output(n)
+    case '8':
+        n = input('Введите пол')
+        st.user(n)
