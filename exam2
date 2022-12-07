@@ -1,0 +1,184 @@
+import pandas as pd
+
+import datetime
+class car:
+    vin=''
+    gos=''
+    mark=''
+    model=''
+    year=0
+    mosh=0
+    probeg=0
+    kolvo=''
+    price=0
+class array:
+    def __init__(self,obj,panda):
+        self.__arr=[]
+        for index, row in panda.iterrows():
+            obj=car()
+            obj.vin=row[0]
+            obj.gos=row[1]
+            obj.mark=row[2]
+            obj.model=row[3]
+            obj.year=row[4]
+            obj.mosh=row[5]
+            obj.probeg=row[6]
+            obj.kolvo=row[7]
+            obj.price=row[8]
+            self.__arr.append(obj)
+    def out(self,vin):
+        for y in self.__arr:
+            if y.vin == vin:
+                print(y.vin)
+    def __str__(self):
+        print(f"{self.vin}")
+    def srav(self,probeg1,probeg2):
+        for y in self.__arr:
+            if y.probeg==probeg1:
+                vin1=y.vin
+            if y.probeg==probeg2:
+                vin2=y.vin
+        if vin1>vin2:
+            print(f'авто с vin {vin1} наездило больше, чем авто с vin {vin2}')
+        else:
+            print(f'авто с vin {vin2} наездило больше, чем авто с vin {vin1}')
+    def get_age(self,vin):
+        for y in self.__arr:
+            if y.vin==vin:
+                year1=y.year
+        current_year = datetime.datetime.now().year-year1
+        print(f'автомобилю {current_year} лет')
+    def set_mileage(self,vin,km):
+        for y in self.__arr:
+            if y.vin==vin:
+                y.probeg+=km
+                print(y.probeg)
+    def get_tax(self,vin):
+        for y in self.__arr:
+            if y.vin==vin:
+                print(f'сумма налога:{y.mosh/10}')
+    def perevod(self,ticket):
+        for y in range(len(self.__arr)):
+            if self.__arr[y].ticket==ticket:
+                if self.__arr[y].kurs<5:
+                    self.__arr[y].kurs+=1
+                else:
+                    ind=y
+        if ind:
+            del self.__arr[ind]
+    def addmark(self,ticket,mark):
+        for y in self.__arr:
+            if y.ticket==ticket:
+                y.marks=y.marks+mark
+class owner():
+    fio=''
+    number=0
+    birthday=''
+    region=''
+    vin=''
+class array1:
+    def __init__(self,obj1,obj2,panda1,panda2):
+        self.__arr=[]
+        for index, row in panda1.iterrows():
+            obj1 = car()
+            obj1.vin = row[0]
+            obj1.gos = row[1]
+            obj1.mark = row[2]
+            obj1.model = row[3]
+            obj1.year = row[4]
+            obj1.mosh = row[5]
+            obj1.probeg = row[6]
+            obj1.kolvo = row[7]
+            obj1.price = row[8]
+            self.__arr.append(obj1)
+        self.__arr1=[]
+        for index, row in panda2.iterrows():
+            obj2 = owner()
+            obj2.fio = row[0]
+            obj2.number = row[1]
+            obj2.birthday = row[2]
+            obj2.region = row[3]
+            obj2.vin = row[4]
+            self.__arr1.append(obj2)
+    def out(self,number):
+        for y in self.__arr1:
+            if y.number == number:
+                print(y.fio)
+    def vseauto(self,number):
+        for y in self.__arr1:
+            if y.number == number:
+                print(y.vin)
+
+    def addauto(self,number,vin):
+        for y in self.__arr1:
+            if y.number == number:
+                fio=y.fio
+                birthday=y.birthday
+                region=y.region
+       # nr = {'fio':fio , 'number': number, 'birthday': birthday, 'region': region, 'vin': vin}
+       # nr = [fio,number,birthday,region,vin]
+        #self.__arr1 = self.__arr1.append(nr)
+
+        obj3 = owner()
+        obj3.fio = fio
+        obj3.number = number
+        obj3.birthday = birthday
+        obj3.region = region
+        obj3.vin = vin
+        self.__arr1.append(obj3)
+        for y in self.__arr1:
+            print(y.vin)
+
+    def remove(self, vin):
+        for y in self.__arr1:
+            if y.vin==vin:
+                idx = self.__arr1[self.__arr1['vin'] == vin].index
+        print(idx)
+                #self.__arr1.remove(y.vin)
+        #for y in self.__arr1:
+         #   print(y.vin)
+    def xx(self):
+        for y in self.__arr1:
+            print(y.vin)
+    def srav1(self,number1,number2):
+        for y in self.__arr1:
+            if y.number==number1:
+                age1=y.birthday[0:4]
+            if y.number==number2:
+                age2=y.birthday[0:4]
+        if age1>age2:
+            print(f'Владелец с {age1} старше {age2}')
+        else:
+            print(f'Владелец с {age2} старше {age1}')
+
+columns = ['vin', 'gos', 'mark', 'model', 'year', 'mosh', 'probeg','kolvo','price']
+data = [
+            ['1x2','234ru', 'vaz', 'kalina', 2022, 80, 1111, '3',120000],
+            ['1x3', '235ru', 'gaz', 'volga', 2020, 90, 2222, '1', 120000],
+            ['1x4','236ru', 'vaz', 'kalina', 2022, 80, 0, '0',200000],
+        ]
+columns1=['fio','number','birthday','region','vin']
+data1=[
+    ['Petrov P P', 1,'2022-02-02','Vologda','1x2'],
+    ['Ivanov I I', 2, '2020-03-03', 'Moscow', '1x3'],
+    ['Petrov P P', 1,'2022-02-02','Vologda','1x4'],
+        ]
+ba = pd.DataFrame(data, columns=columns)
+ga = pd.DataFrame(data1, columns=columns1)
+s=car()
+st=array(s,ba)
+st.out('1x3')
+st.srav(1111,0)
+st.get_age('1x3')
+st.set_mileage('1x3',78)
+st.get_tax('1x3')
+print('____')
+g=owner()
+gr=array1(s,g,ba,ga)
+gr.out(1)
+gr.vseauto(1)
+print('_______')
+gr.addauto(2,'1x5')
+#gr.remove('1x5')
+#gr.xx()
+gr.srav1(1,2)
