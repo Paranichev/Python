@@ -1,0 +1,107 @@
+import pandas as pd
+import os
+
+
+class student:
+    def __init__(self):
+        columns = ['vin', 'gos', 'bu', 'mark', 'model', 'year', 'mosh', 'probeg','kolvo','price']
+        data = [
+            ['1x2','234ru','yes', 'vaz', 'kalina', '2022', '80', 1111, '3',120000],
+            ['1x3', '235ru', 'yes', 'gaz', 'volga', '2020', '90', 2222, '1', 120000],
+            ['1x4','236ru','no', 'vaz', 'kalina', '2022', '80', 0, '0',200000],
+        ]
+        self.__qa = pd.DataFrame(data, columns=columns)
+        self.__qa.to_csv(r'33.csv')
+
+    def add(self, vin,gos,bu,mark,model,year,mosh,probeg,kolvo,price):
+        if (self.__qa['vin'] == vin).sum() == 0:
+            nr = {'vin':vin, 'gos':gos, 'bu':bu, 'mark':mark, 'model':model, 'year':year, 'mosh':mosh, 'probeg':probeg,'kolvo':kolvo,'price':price}
+            self.__qa = self.__qa.append(nr, ignore_index=True)
+            self.__qa.to_csv('33.csv', index=False)
+            # print(self.__qa)
+        else:
+            print('Wrong vin!')
+
+    def output(self,):
+        self.__qa = self.__qa.sort_values(by='price')
+        print(self.__qa)
+
+    def remove(self, vin):
+        self.__qa = self.__qa[self.__qa.vin != vin]
+        os.remove('33.csv')
+        my_file = open("33.csv", "w")
+        my_file.close()
+        self.__qa.to_csv('33.csv', index=False)
+
+    def search(self, mark):
+        print(self.__qa.loc[self.__qa['mark'] == mark])
+    def search1(self, model):
+        print(self.__qa.loc[self.__qa['model'] ==model])
+    def maxprobeg(self):
+        print(self.__qa.loc[self.__qa['probeg']==self.__qa['probeg'].max()])
+    def year(self,year):
+        print(self.__qa.loc[self.__qa['year'] ==year])
+    def gos(self,gos):
+        print(self.__qa.loc[self.__qa['gos'] ==gos])
+
+    def next(self):
+        self.__qa1 = self.__qa[self.__qa.kurs == 5]
+        self.__qa = self.__qa[self.__qa.kurs != 5]
+        self.__qa.loc[self.__qa['kurs'] < 5, 'kurs'] += 1
+        os.remove('33.csv')
+        my_file = open("33.csv", "w")
+        my_file.close()
+        self.__qa.to_csv('33.csv', index=False)
+        self.__qa1.to_csv('333.csv', index=False)
+    def vlad(self,kol):
+        print(self.__qa.loc[self.__qa['kolvo'] > kol])
+    def price(self,price1,price2):
+        print(self.__qa.loc[(self.__qa['price'] > price1)&(self.__qa['price'] < price2)])
+st = student()
+print('1-добавление,\n2-удаление,\n3-поиск по марке,\n4-поиск по модели,\n5-мах пробег,\n6-перевод и исключение студентов по курсу,\n7-вывод информации в виде строки\n8-пользовательская\n)')
+k=input('Введите номер функции:')
+match k:
+    case '0':
+        st.output()
+    case '1':
+        n1 = input('Введите vin')
+        n2 = input('Введите gos')
+        n3= input('Введите bu')
+        n4= input('Введите mark')
+        n5= input('Введите model')
+        n6= input('Введите year')
+        n7=input('Введите mosh')
+        n8 = int(input('Введите probeg'))
+        n9 = input('Введите kolvo')
+        n10 = int(input('Введите price'))
+        st.add(n1,n2,n3,n4,n5,n6,n7,n8,n9,n10)
+    case '2':
+        st.maxprobeg()
+    case '3':
+        n = input('Введите mark')
+        st.search(n)
+    case '4':
+        n = input('Введите model')
+        st.search1(n)
+    case '5':
+        n = input('Введите year')
+        st.year(n)
+    case '6':
+        n = input('Введите gos')
+        st.gos(n)
+    case '7':
+        n = input('Введите kolvo')
+        st.vlad(n)
+    case '8':
+        n = input('Введите n')
+        m = input('Введите m')
+        st.price(n,m)
+    case '9':
+        print('qq')
+        n=input('Введите ФИО студента')
+        st.search(n)
+    case '10':
+        n = input('Введите vin')
+        st.remove(n)
+    case _:
+        print('wrong number')
